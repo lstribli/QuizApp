@@ -11,29 +11,25 @@ function startQuiz() {
 
 }
 
-
-
-
-
 function generateQuestionsElement() {
 
   return `
     <form class= "formOne">
         <fieldset>
     
-            <legend>What sport involves water?</legend>
+            <legend>${STORE.questions[STORE.questionNumber].question}</legend>
         
-            <input type="radio" id="basketball" name="answer" value="basketball" required>
-            <label for="basketball">Basketball</label><br/>
+            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[0]}" required>
+            <label for="answer">${STORE.questions[STORE.questionNumber].answers[0]}</label><br/>
 
-            <input type="radio" id="soccer" name="answer" value="soccer">
-            <label for="soccer">Soccer</label><br/>
+            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
+            <label for="answer">${STORE.questions[STORE.questionNumber].answers[1]}</label><br/>
 
-            <input type="radio" id="water-polo" name="answer" value="water-polo">
-            <label for="water-polo">Water Polo</label><br/>
+            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[2]}">
+            <label for="answer">${STORE.questions[STORE.questionNumber].answers[2]}</label><br/>
 
-            <input type="radio" id="lacrosse" name="answer" value="lacrosse">
-            <label for="lacrosse">Lacrosse</label><br/>
+            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
+            <label for="answer">${STORE.questions[STORE.questionNumber].answers[3]}</label><br/>
         </fieldset>
         <button class="submit" type="submit">Submit</button>
     </form>
@@ -47,17 +43,15 @@ function formEventHandler() {
   $('main').on('submit', 'form', event => {
     event.preventDefault();
     console.log(event.target.answer.value);
-    return event.target.answer.value;
   });
 }
+//make sure answer is correct
 
-function submitEventHandler() {
-  $('main').on('submit', 'form', event => {
-    event.preventDefault();
-    console.log('submit button clicked');
-  
-  });
-}
+//if correct increment score
+//if incorrect
+
+//increment
+
 
 
 
