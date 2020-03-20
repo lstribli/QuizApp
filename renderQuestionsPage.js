@@ -12,7 +12,7 @@ function generateQuestionsElement() {
             <legend>What sport involves water?</legend>
 
             //return an object from an array of objects (questions 1-5)
-            
+
             <input type="radio" id="basketball" name="sport">
             <label for="basketball">Basketball</label><br/>
 
@@ -35,3 +35,7 @@ function generateQuestionsElement() {
 
 
 document.body.innerHTML = generateQuestionsElement();
+
+$('fieldset').on('click', event => {
+    console.log('a button was clicked');
+});

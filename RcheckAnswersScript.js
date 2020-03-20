@@ -1,7 +1,7 @@
 'use strict';
 
 
-function handleAnswerClick(){
+function handleAnswerClick(event){
 
 }
 
