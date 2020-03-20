@@ -8,9 +8,6 @@
 
 function startQuiz() {
   
-  : false,
-  if (STORE.quizStarted)
-  }
  
 
 function generateQuestionsElement() {
