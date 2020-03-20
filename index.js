@@ -2,7 +2,7 @@
 
 function refresh() {
     startQuiz();
-    formEventHandler()
+    formEventHandler();
     //handleAnswerClick();
     // handleAnswerCheck();
     // handleToNextPage();
