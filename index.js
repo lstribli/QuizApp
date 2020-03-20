@@ -1,8 +1,8 @@
 'use strict';
 
 function refresh() {
-    startQuiz();
-    formEventHandler();
+    startQuiz()
+    generateQuestionsElement();
     //handleAnswerClick();
     // handleAnswerCheck();
     // handleToNextPage();

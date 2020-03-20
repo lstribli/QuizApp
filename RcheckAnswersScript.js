@@ -1,22 +1,5 @@
 'use strict';
 
-function handleAnswerClick(event) {
-
-}
-
-
-
-function handleAnswerCheck() {
-
-}
-
-
-
-function handleToNextPage() {
-
-}
-
-
 const STORE = {
   // 5 or more questions are required
   questions: [
@@ -80,3 +63,4 @@ const STORE = {
   //increment correect by 1
   score: 0
 };
+

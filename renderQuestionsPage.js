@@ -7,9 +7,11 @@
 
 
 function startQuiz() {
-  $('main').html(generateQuestionsElement());
-
-}
+  
+  : false,
+  if (STORE.quizStarted)
+  }
+ 
 
 function generateQuestionsElement() {
 
@@ -44,6 +46,10 @@ function formEventHandler() {
     event.preventDefault();
     console.log(event.target.answer.value);
   });
+}
+
+function switchQuestion() {
+for (let i=0; i<questions.length; i++) { correctAnswers=[]; for (letter in questions[i].answers){ answers.push(${STORE.QUESTION})
 }
 //make sure answer is correct
 
