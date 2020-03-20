@@ -5,6 +5,9 @@
 //store.questionNumber
 //map over answers array
 
+function start () {
+  
+}
 
 function startQuiz() {
   $('main').html(generateQuestionsElement());
@@ -12,6 +15,7 @@ function startQuiz() {
 }
 
 function generateQuestionsElement() {
+
 
   return `
     <form class= "formOne">
@@ -45,13 +49,51 @@ function formEventHandler() {
     console.log(event.target.answer.value);
   });
 }
-//make sure answer is correct
 
-//if correct increment score
-//if incorrect
+function renderQuestion () {
+  const questionAnswers = generateQuestionsElement(STORE);
+  $('#formOne').html(questionAnswers);
+}
 
-//increment
 
+function updateCurrentScore () {
+  console.log('updateCurrentScore has run')
+}
+
+
+
+function answerSelectCorrect () {
+  console.log('answerSelectCorrect has run');
+
+}
+function answerSelectWrong () {
+  console.log('answerSelectWrong has run')
+}
+
+function clickToStartNextQuestion () {
+  console.log('clickToStartNextQuestion has run')
+}
+
+function generateResultsPage () {
+  console.log('generateResultsPage has run')
+}
+
+function clickToRestart () {
+  console.log('clickToRestart has run')
+}
+
+function generateQuiz () {
+  startQuiz();
+  renderQuestion();
+  updateCurrentScore();
+  answerSelectCorrect();
+  answerSelectWrong();
+  clickToStartNextQuestion();
+  generateResultsPage();
+  clickToRestart();
+}
+
+$(generateQuiz);
 
 
 
