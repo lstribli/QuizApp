@@ -2,8 +2,7 @@
 
 function refresh() {
   startQuiz();
-  // generateQuiz();
-  renderStart();
+  generateQuiz();
   showStart();
   startPage();
   handleStart();
@@ -16,10 +15,6 @@ function refresh() {
   renderFinalWindow();
   generateQuestionsElement();
 }
-
-//handleAnswerClick();
-// handleAnswerCheck();
-// handleToNextPage();
 
 
 // when the page loads, call `refresh`
