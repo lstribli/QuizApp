@@ -1,10 +1,10 @@
 'use strict';
 function renderStart() {
-  $('<js-start-page>').html(
-    `
+  return `'<js-start-page>'
+    
   <div class="js-start-quiz"><button>start</button></div>`;
 }
-  )
+
 function showStart() {
   $('js-start-page').show();
 }
@@ -25,7 +25,7 @@ function handleStart() {
 }
 
 function restartHandler() {
-  $('.js-restart').click(event => {
+  $('.js-restart').click(() => {
     $('.js-final-page').hide();
     startQuiz();
   });
@@ -71,69 +71,55 @@ function renderQuestion() {
   $('#formOne').html(questionAnswers);
 }
 
-function answer() {
-  $('submit').on('click', event => {
-    event.preventDefault();
-    return event.target.answer.value;
-  });
-
-
-
-
-  function handleNewAnswer(answer) {
-    if (!answer) {
-      $('js-notification').text('correct answer');
-    }
-    return;
+function handleNewAnswer(answer) {
+  if (!answer) {
+    $('js-notification').text('correct answer');
   }
-  if (answer === STORE.questions[STORE.questionNumber].correctAnswer) {
-    STORE.score++;
-  }
-  STORE.questionNumber++;
-
-  if (STORE.questionNumber >= STORE.questions.length) {
-    $('.js-final-page').show();
-  } else {
-    renderQuestion();
-  }
-
-
-  function renderFinalWindow() {
-    $('js-question-page').hide();
-    $('js-final-page').show();
-    $('js-final-message').text('quiz is over your score is ${STORE.score}');
-  }
-
-  //log value of submitted radio button
-  function formEventHandler() {
-    $('main').on('submit', 'form', event => {
-      event.preventDefault();
-      handleNewAnswer(event.target.answer.value);
-    });
-  }
-
-  function renderQuestion() {
-    const questionAnswers = generateQuestionsElement(STORE);
-    $('#formOne').html(questionAnswers);
-  }
-
-
-  function generateQuiz() {
-    renderStart();
-    showStart();
-    startPage();
-    handleStart();
-    startQuiz();
-    restartHandler();
-    generateQuestionsElement();
-    renderQuestion();
-    answer();
-    handleNewAnswer();
-    formEventHandler();
-    renderFinalWindow();
-  }
-
-  $(generateQuiz);
-
-
+  return event.target.answer.value;
 }
+if (answer === STORE.questions[STORE.questionNumber].correctAnswer) {
+  STORE.score++;
+}
+STORE.questionNumber++;
+
+if (STORE.questionNumber >= STORE.questions.length) {
+  $('.js-final-page').show();
+} else {
+  renderQuestion();
+}
+
+function renderFinalWindow() {
+  $('js-question-page').hide();
+  $('js-final-page').show();
+  $('js-final-message').text('quiz is over your score is ${STORE.score}');
+}
+
+//log value of submitted radio button
+function formEventHandler() {
+  $('main').on('submit', 'form', event => {
+    event.preventDefault();
+    handleNewAnswer(event.target.answer.value);
+  });
+}
+
+function renderQuestion() {
+  const questionAnswers = generateQuestionsElement(STORE);
+  $('#formOne').html(questionAnswers);
+}
+
+function generateQuiz() {
+  renderStart();
+  showStart();
+  startPage();
+  handleStart();
+  startQuiz();
+  restartHandler();
+  generateQuestionsElement();
+  renderQuestion();
+  handleNewAnswer();
+  formEventHandler();
+  renderFinalWindow();
+}
+
+$(generateQuiz);
+

@@ -2,7 +2,7 @@
 
 function refresh() {
   startQuiz();
-  generateQuiz();
+  // generateQuiz();
   renderStart();
   showStart();
   startPage();
@@ -11,7 +11,6 @@ function refresh() {
   restartHandler();
   generateQuestionsElement();
   renderQuestion();
-  newAnswer();
   handleNewAnswer();
   formEventHandler();
   renderFinalWindow();
