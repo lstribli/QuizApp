@@ -1,44 +1,39 @@
 'use strict';
 
-function showStart() {
-  $('.js-start-page').show();
-  $('main').html(generateStartPage());
-}
-function generateStartPage() {
-  $('<div>Start Quiz</div>');
-}
+//initially call the start page HTML
 function startPage() {
+  $('.js-start-page').show();
   $('.js-final-page').hide();
   $('.js-question-page').hide();
-
-}
+};
+//when clicked, the start quiz button hides the start page, then displays the questions pages with a reset score
 function handleStart() {
-  $('.js-start-quiz').click(() => {
-    $('.js-question-page').show();
+  $('main').on('click', 'js-start-quiz', event => {
+    event.preventDefault();
+    console.log('start button clicked');
     $('.js-start-page').hide();
     $('.js-final-page').hide();
-    startQuiz();
+    $(startQuiz());
   });
-}
-function restartHandler() {
-  $('.js-restart').click(() => {
-    $('.js-final-page').hide();
-    startQuiz();
-  });
-}
-
-function startQuiz() {
-  STORE.questionNumber = 0;
-  STORE.score = 0;
-  renderQuestion();
-  $('js-notification').text('The quiz has started');
-  $('.js-question-page').show();
-  $('main').html(generateQuestionsElement());
-}
-
-
-function generateQuestionsElement() {
-  return `
+  //reset the score and question number while displaying the first question
+  function startQuiz() {
+    STORE.questionNumber = 0;
+    STORE.score = 0;
+    renderQuestion();
+    $('js-notification').text('The quiz has started');
+    $('.js-question-page').show();
+    $('main').html(generateQuestionsElement());
+  }
+  //from the final page, reset the score and question number and show the first question
+  function restartHandler() {
+    $('.js-restart').click(() => {
+      $('.js-final-page').hide();
+      startQuiz();
+    });
+  }
+  //Insert the questions into the HTML page
+  function generateQuestionsElement() {
+    return `
     <form class= "formOne">
         <fieldset>
     
@@ -56,18 +51,21 @@ function generateQuestionsElement() {
         <button class="submit" type="submit">Submit</button>
     </form>
    `;
-}
+  }
+  //generate the proper questions and answers inside the questions page
+  function renderQuestion() {
+    const questionAnswers = generateQuestionsElement(STORE.questions);
+    $('#formOne').html(questionAnswers);
+  }
 
-function renderQuestion() {
-  const questionAnswers = generateQuestionsElement(STORE.questions);
-  $('#formOne').html(questionAnswers);
-}
+  //
 
-function answer() {
-  let answer = $('input[type=radio]').on('submit', function () {
-    $(this).closest('form').submit();
-  });
+  // let answer = $('input[type=radio]').on('submit', function () {
+  //   $(this).closest('form').submit();
+  // })
 
+
+  //on submit, check the answer and tally score while advancing page number until the final page
   function handleNewAnswer(answer) {
     if (!answer) {
       $('js-notification').text('correct answer');
@@ -94,30 +92,6 @@ function answer() {
   function formEventHandler() {
     $('main').on('submit', 'form', event => {
       event.preventDefault();
-      handleNewAnswer(event.target.answer.value);
+      handleNewAnswer(STORE.event.target.answer.value);
     });
   }
-
-  function renderQuestion() {
-    const questionAnswers = generateQuestionsElement(STORE);
-    $('#formOne').html(questionAnswers);
-  }
-
-  function generateQuiz() {
-    showStart();
-    startPage();
-    handleStart();
-    startQuiz();
-    restartHandler();
-    generateStartPage();
-    generateQuestionsElement();
-    renderQuestion();
-    answer();
-    handleNewAnswer();
-    formEventHandler();
-    renderFinalWindow();
-  }
-
-  $(generateQuiz);
-
-}

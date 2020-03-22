@@ -1,9 +1,6 @@
 'use strict';
 
 function refresh() {
-  startQuiz();
-  generateQuiz();
-  showStart();
   startPage();
   handleStart();
   startQuiz();
