@@ -3,14 +3,9 @@
 function refresh() {
   startPage();
   handleStart();
-  startQuiz();
-  restartHandler();
-  generateQuestionsElement();
-  renderQuestion();
-  handleNewAnswer();
-  formEventHandler();
   renderFinalWindow();
-  generateQuestionsElement();
+  
+
 }
 
 

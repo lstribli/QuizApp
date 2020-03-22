@@ -8,9 +8,10 @@ function startPage() {
 };
 //when clicked, the start quiz button hides the start page, then displays the questions pages with a reset score
 function handleStart() {
-  $('main').on('click', 'js-start-quiz', event => {
+  $('.js-start-quiz').click(function() {
     event.preventDefault();
     console.log('start button clicked');
+    console.log(STORE.score)
     $('.js-start-page').hide();
     $('.js-final-page').hide();
     $(startQuiz());
@@ -20,10 +21,10 @@ function handleStart() {
     STORE.questionNumber = 0;
     STORE.score = 0;
     renderQuestion();
-    $('js-notification').text('The quiz has started');
+    // $('js-notification').text('The quiz has started');
     $('.js-question-page').show();
     $('main').html(generateQuestionsElement());
-  }
+  };
   //from the final page, reset the score and question number and show the first question
   function restartHandler() {
     $('.js-restart').click(() => {
@@ -48,7 +49,7 @@ function handleStart() {
             <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[3]}</label><br/>
         </fieldset>
-        <button class="submit" type="submit">Submit</button>
+        <button class="submit">Submit</button>
     </form>
    `;
   }
@@ -58,15 +59,14 @@ function handleStart() {
     $('#formOne').html(questionAnswers);
   }
 
-  //
-
-  // let answer = $('input[type=radio]').on('submit', function () {
-  //   $(this).closest('form').submit();
-  // })
-
-
-  //on submit, check the answer and tally score while advancing page number until the final page
-  function handleNewAnswer(answer) {
+function answer(){
+ $("formOne").submit(function(){
+  let selValueByClass = $(".answer:checked").val();
+  console.log(selValueByClass);
+});
+}
+// //   //on submit, check the answer and tally score while advancing page number until the final page
+  function handleNewAnswer() {
     if (!answer) {
       $('js-notification').text('correct answer');
     }
@@ -75,23 +75,27 @@ function handleStart() {
     STORE.score++;
   }
   STORE.questionNumber++;
-
+}
+  if (STORE.questionNumber <= STORE.questions.length) {
+    $('.js-question-page').show();
+    $('.js-start-page').hide();
+  }
   if (STORE.questionNumber >= STORE.questions.length) {
     $('.js-final-page').show();
-  } else {
-    renderQuestion();
   }
-
   function renderFinalWindow() {
     $('js-question-page').hide();
     $('js-final-page').show();
     $('js-final-message').text('quiz is over your score is ${STORE.score}');
-  }
+  };
 
-  //log value of submitted radio button
+//   //log value of submitted radio button
   function formEventHandler() {
-    $('main').on('submit', 'form', event => {
+    $('#formOne').on('.submit', 'button', function(){
       event.preventDefault();
-      handleNewAnswer(STORE.event.target.answer.value);
+      handleNewAnswer();
+      console.log('answer submitted');
+      $('.js-start-page').hide();
     });
-  }
+  };
+    $(startPage())
