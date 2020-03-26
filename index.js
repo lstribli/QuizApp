@@ -3,8 +3,10 @@
 function refresh() {
   startPage();
   handleStart();
-  renderFinalWindow();
-  
+  checkAnswer();
+  handleNewAnswer();
+  // renderFinalWindow();
+
 
 }
 
