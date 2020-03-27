@@ -5,6 +5,7 @@ function startPage() {
   $('.js-start-page').show();
   $('.js-final-page').hide();
   $('.js-question-page').hide();
+  $('.js-notification').hide();
 };
 //when clicked, the start quiz button hides the start page, then displays the questions pages with a reset score
 function handleStart() {
@@ -63,29 +64,41 @@ function renderQuestion() {
 function checkAnswer() {
   $("body").on('click', 'button[type="submit"]', function (e) {
     e.preventDefault();
-    let selValueByClass = $("input[name='answer']:checked").val();
+    let selValueByClass = $('input[name="answer"]': checked).val();
     return handleNewAnswer(selValueByClass);
   });
 }
 
 // //   //on submit, check the answer and tally score while advancing page number until the final page
 function handleNewAnswer(selValueByClass) {
-  if (!$(selValueByClass).val()) {
-    $('js-notification').text('correct answer');
+  //set right asnwer to a piece of data "correcanswer"
+  const correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
+  //compare correctAnswer to submitted answer
+
+
+  // if selValueByClass === STORE.questions.correctAnswer.val()) {
+  // $('js-notification').text('correct answer');
+  if (selValueByClass === correctAnswer) {
+    STORE.score++;
+    STORE.questionNumber++;
+
+    $('js-not-page').show().text('The answer you selected was correct');
+  }
+  if (selValueByClass !== correctAnswer) {
+    $('js-not-page').show().text('The answer you selected was incorrect');
+  }
+  if (STORE.questionNumber <= STORE.questions.length) {
+    $('.js-question-page').show();
+
+
+    console.log('not done');
+
+  }
+  else {
+    $('.js-final-page').show();
+    console.log('done');
   }
 }
-if ($(checkAnswer).val() === STORE.questions[STORE.questionNumber].correctAnswer) {
-  STORE.score++;
-  STORE.questionNumber++;
-}
-if (STORE.questionNumber <= STORE.questions.length) {
-  $('.js-question-page').show();
-  $('.js-start-page').hide();
-}
-if (STORE.questionNumber >= STORE.questions.length) {
-  $('.js-final-page').show();
-}
-
 // function renderFinalWindow() {
 //   $('js-question-page').hide();
 //   $('js-final-page').show();

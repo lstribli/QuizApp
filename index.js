@@ -5,6 +5,7 @@ function refresh() {
   handleStart();
   checkAnswer();
   handleNewAnswer();
+  $('.js-notification').hide();
   // renderFinalWindow();
 
 
