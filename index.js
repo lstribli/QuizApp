@@ -1,5 +1,3 @@
-'use strict';
-
 
 const STORE = {
   // 5 or more questions are required
@@ -68,7 +66,6 @@ const STORE = {
 function refresh() {
   STORE.questionNumber = 0;
   STORE.score = 0;
-  renderQuestion();
 }
 
 function generateQuestionsElement() {
@@ -78,7 +75,7 @@ function generateQuestionsElement() {
     
             <legend>${STORE.questions[STORE.questionNumber].question}</legend>
         
-            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[0]}" required>
+            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[0]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[0]}</label><br/>
             <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[1]}</label><br/>
@@ -97,17 +94,80 @@ function renderQuestion() {
   $('main').html(questionAnswers);
 }
 
-function checkAnswer() {
+function clickStart() {
   $('.startQuiz').on('click', function (e) {
     e.preventDefault();
-    console.log('submitted');
+    refresh();
     renderQuestion();
-    // let selValueByClass = $('input[name="answer"]').val();
+  });
+}
+function submitNewAnswer() {
+  $('main').submit(function (event) {
+    event.preventDefault();
+    checkAnswer();
+    pageHandler();
   });
 }
 
+function getAnswer() {
+  let selValueByClass = $('input[name="answer"]:checked').val();
+
+  return selValueByClass;
+}
+
+function checkAnswer(selValueByClass) {
+  if (selValueByClass === STORE.correctAnswer) {
+    STORE.score++;
+    STORE.questionNumber++;
+  }
+  if (selValueByClass !== STORE.correctAnswer) {
+    alert('incorrect');
+  }
+}
+function pageHandler() {
+  if (STORE.questionNumber < 4) {
+    renderQuestion();
+  }
+
+  if (STORE.questionNumber > 4) {
+    renderFinalPage();
+  }
+  // $('body').empty();
+
+}
+function finalPage() {
+  return `
+  <header>
+      <h1>Logan's Quiz</h1>
+    </header>
+    <div class="finalPage">
+      <h2>You've completed my quiz!</h2>
+      <button class="retake">Retake Quiz</button>
+    </div>
+    <h3>
+    Your score was ${STORE.score} out of 5!
+    </h3>
+  `;
+}
+function renderFinalPage() {
+  let finalPageContent = finalPage();
+  $('main').html(finalPageContent);
+}
+
+function retakeQuiz() {
+  $('.retake').on('click', function (e) {
+    e.preventDefault();
+    refresh();
+    renderQuestion();
+  });
+}
 function bindEventListeners() {
+  getAnswer();
+  clickStart();
+  submitNewAnswer();
   checkAnswer();
+  retakeQuiz();
+
 }
 
 function render() {
