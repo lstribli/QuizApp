@@ -3,6 +3,7 @@ const STORE = {
   // 5 or more questions are required
   questions: [
     {
+      questionNumber: 0,
       question: 'What sport involves water?',
       answers: [
         'basketball',
@@ -13,6 +14,7 @@ const STORE = {
       correctAnswer: 'water-polo'
     },
     {
+      questionNumber: 1,
       question: 'Who was the 31st president of the United States ?',
       answers: [
         'Thomas Jefferson',
@@ -23,6 +25,7 @@ const STORE = {
       correctAnswer: 'Herbert Hoover'
     },
     {
+      questionNumber: 2,
       question: 'Which month has 31 days ?',
       answers: [
         'February',
@@ -101,49 +104,46 @@ function clickStart() {
     renderQuestion();
   });
 }
+
+
+// function getAnswer() {
+//   // const answer = $("input[name='answer']:checked").val();
+//   console.log('answer submitted');
+//   console.log(answer);
+//   return answer;
+// }
 function submitNewAnswer() {
-  $('main').submit(function (event) {
-    event.preventDefault();
-    checkAnswer();
+  $('main').submit(function (e) {
+    e.preventDefault();
+    if (STORE.questionNumber <= 4) {
+      checkAnswer();
+    }
     pageHandler();
+    renderFinalPage();
   });
 }
-
-function getAnswer() {
-  let selValueByClass = $('input[name="answer"]:checked').val();
-
-  return selValueByClass;
-}
-
-function checkAnswer(selValueByClass) {
-  if (selValueByClass === STORE.correctAnswer) {
+function checkAnswer() {
+  let answer = $("input[name='answer']:checked").val();
+  let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
+  if (answer === correctAnswer) {
     STORE.score++;
     STORE.questionNumber++;
   }
-  if (selValueByClass !== STORE.correctAnswer) {
-    alert('incorrect');
-  }
+  if (answer !== correctAnswer) (alert('incorrect'));
 }
+
 function pageHandler() {
   if (STORE.questionNumber < 4) {
     renderQuestion();
   }
-
-  if (STORE.questionNumber > 4) {
-    renderFinalPage();
-  }
-  // $('body').empty();
-
 }
 function finalPage() {
   return `
   <header>
       <h1>Logan's Quiz</h1>
     </header>
-    <div class="finalPage">
       <h2>You've completed my quiz!</h2>
       <button class="retake">Retake Quiz</button>
-    </div>
     <h3>
     Your score was ${STORE.score} out of 5!
     </h3>
@@ -151,22 +151,33 @@ function finalPage() {
 }
 function renderFinalPage() {
   let finalPageContent = finalPage();
-  $('main').html(finalPageContent);
+  if (STORE.questionNumber > 4) {
+    $('main').html(finalPageContent);
+  }
 }
-
-function retakeQuiz() {
-  $('.retake').on('click', function (e) {
+function clickRetake() {
+  $('main').on('click', '.retake', function (e) {
     e.preventDefault();
     refresh();
-    renderQuestion();
+    renderStart();
   });
 }
+function generateStartString() {
+  return `<header>
+  <h1>Logan's Quiz</h1>
+</header>
+<h2>Welcome to the quiz!</h2>
+<button class="startQuiz">Start Quiz</button>`;
+}
+function renderStart() {
+  const start = generateStartString();
+  $('main').html(start);
+}
 function bindEventListeners() {
-  getAnswer();
+  refresh();
   clickStart();
   submitNewAnswer();
-  checkAnswer();
-  retakeQuiz();
+  clickRetake();
 
 }
 
@@ -175,3 +186,5 @@ function render() {
 }
 
 $(render);
+
+
