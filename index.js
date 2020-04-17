@@ -3,7 +3,7 @@ const STORE = {
   // 5 or more questions are required
   questions: [
     {
-      questionNumber: 0,
+      Number: '1',
       question: 'What sport involves water?',
       answers: [
         'basketball',
@@ -14,7 +14,7 @@ const STORE = {
       correctAnswer: 'water-polo'
     },
     {
-      questionNumber: 1,
+      Number: '2',
       question: 'Who was the 31st president of the United States ?',
       answers: [
         'Thomas Jefferson',
@@ -25,7 +25,7 @@ const STORE = {
       correctAnswer: 'Herbert Hoover'
     },
     {
-      questionNumber: 2,
+      Number: '3',
       question: 'Which month has 31 days ?',
       answers: [
         'February',
@@ -36,6 +36,7 @@ const STORE = {
       correctAnswer: 'January'
     },
     {
+      Number: '4',
       question: 'Which is the capital of Texas ?',
       answers: [
         'Austin',
@@ -46,6 +47,7 @@ const STORE = {
       correctAnswer: 'Austin'
     },
     {
+      Number: '5',
       question: 'Which is the capital of Texas ?',
       answers: [
         'Austin',
@@ -54,8 +56,18 @@ const STORE = {
         'San Antonio'
       ],
       correctAnswer: 'Austin'
+    },
+    {
+      Number: '',
+      question: '',
+      answers: [
+        '',
+        '',
+        '',
+        ''
+      ],
+      correctAnswer: 'Austin'
     }
-
 
   ],
   //boolean to start first question
@@ -73,18 +85,18 @@ function refresh() {
 
 function generateQuestionsElement() {
   return `
+  <span class="questionSpan">You are on question ${STORE.questionNumber + 1} of 5!</span>
     <form class="formOne">
         <fieldset>
-    
             <legend>${STORE.questions[STORE.questionNumber].question}</legend>
         
-            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[0]}">
+            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[0]}" required="">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[0]}</label><br/>
-            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
+            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[1]}</label><br/>
-            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[2]}">
+            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[2]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[2]}</label><br/>
-            <input type="radio" name="answer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
+            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
             <label for="answer">${STORE.questions[STORE.questionNumber].answers[3]}</label><br/>
         </fieldset>
         <button type="submit">Submit</button>
@@ -98,54 +110,91 @@ function renderQuestion() {
 }
 
 function clickStart() {
-  $('.startQuiz').on('click', function (e) {
+  $('.main').on('click', '.startQuiz', function (e) {
     e.preventDefault();
     refresh();
     renderQuestion();
   });
 }
 
-
-// function getAnswer() {
-//   // const answer = $("input[name='answer']:checked").val();
-//   console.log('answer submitted');
-//   console.log(answer);
-//   return answer;
-// }
-function submitNewAnswer() {
-  $('main').submit(function (e) {
-    e.preventDefault();
-    if (STORE.questionNumber <= 4) {
-      checkAnswer();
-    }
-    pageHandler();
-    renderFinalPage();
-  });
-}
 function checkAnswer() {
-  let answer = $("input[name='answer']:checked").val();
+  let answer = $('input[name="selectedanswer"]:checked').val();
   let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
   if (answer === correctAnswer) {
     STORE.score++;
     STORE.questionNumber++;
-  }
-  if (answer !== correctAnswer) (alert('incorrect'));
-}
-
-function pageHandler() {
-  if (STORE.questionNumber < 4) {
     renderQuestion();
   }
+  console.log('checkanswer SCORE:', STORE.score);
+  console.log('checkanswer QUESTIONNUMBER:', STORE.questionNumber);
+  if (answer !== correctAnswer) {
+    renderErrorPage();
+  }
+  if (STORE.score === 5) {
+    renderFinalPage();
+  }
+  if (STORE.questionNumber > 4) renderFinalPage();
 }
+function submitNewAnswer() {
+  let prevScore = STORE.score;
+  console.log('submitNewAnswer: PREVSCORE =', prevScore);
+  $('body').submit(function (e) {
+    e.preventDefault();
+    checkAnswer();
+    // console.log('submitNewAnswer: answer submitted');
+    // if (STORE.questionNumber <= 4) {
+    //   checkAnswer();
+    // }
+    // console.log('submitNewAnswer: NEWSCORE =', STORE.score);
+    // if (STORE.score > prevScore) {
+    //   checkAnswer();
+    //   renderQuestion();
+    // }
+    // if (STORE.score > 4) {
+    //   checkAnswer();
+    //   renderFinalPage();
+
+  });
+}
+function generateErrorPage() {
+  return `
+  
+  <h1>Logan's Quiz</h1>
+  <h2>Sorry, that answer was incorrect!</h2>
+  <h3>The correct answer is ${STORE.questions[STORE.questionNumber].correctAnswer}</h3>
+  <button class="next">Next question</button>
+<h3>
+Your score is ${STORE.score} out of 5!
+</h3>
+`;
+}
+function renderErrorPage() {
+  let errorPageContent = generateErrorPage();
+  $('main').html(errorPageContent);
+}
+
+function nextQuestion() {
+  $('body').on('click', '.next', function (e) {
+    e.preventDefault();
+    console.log('error page: next question clicked');
+    console.log('error page: QUESTIONNUMBER', STORE.questionNumber);
+    STORE.questionNumber++;
+    if (STORE.questionNumber > 4) {
+      renderFinalPage();
+    }
+    if (STORE.questionNumber <= 4) {
+      renderQuestion();
+    }
+  });
+}
+
 function finalPage() {
   return `
-  <header>
-      <h1>Logan's Quiz</h1>
-    </header>
-      <h2>You've completed my quiz!</h2>
-      <button class="retake">Retake Quiz</button>
+    <h1>Logan's Quiz</h1>
+    <h2>You've completed my quiz!</h2>
+    <button class="retake">Retake Quiz</button>
     <h3>
-    Your score was ${STORE.score} out of 5!
+      Your score was ${STORE.score} out of 5!
     </h3>
   `;
 }
@@ -159,15 +208,15 @@ function clickRetake() {
   $('main').on('click', '.retake', function (e) {
     e.preventDefault();
     refresh();
+    $('main').empty();
     renderStart();
   });
 }
 function generateStartString() {
-  return `<header>
-  <h1>Logan's Quiz</h1>
-</header>
-<h2>Welcome to the quiz!</h2>
-<button class="startQuiz">Start Quiz</button>`;
+  return `
+    <h1>Logan's Quiz</h1>
+    <h2>Welcome to the quiz!</h2>
+    <button class="startQuiz">Start Quiz</button>`;
 }
 function renderStart() {
   const start = generateStartString();
@@ -178,7 +227,8 @@ function bindEventListeners() {
   clickStart();
   submitNewAnswer();
   clickRetake();
-
+  nextQuestion();
+  renderStart();
 }
 
 function render() {
