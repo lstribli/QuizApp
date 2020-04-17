@@ -90,14 +90,14 @@ function generateQuestionsElement() {
         <fieldset>
             <legend>${STORE.questions[STORE.questionNumber].question}</legend>
         
-            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[0]}" required="">
-            <label for="answer">${STORE.questions[STORE.questionNumber].answers[0]}</label><br/>
-            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
-            <label for="answer">${STORE.questions[STORE.questionNumber].answers[1]}</label><br/>
-            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[2]}">
-            <label for="answer">${STORE.questions[STORE.questionNumber].answers[2]}</label><br/>
-            <input type="radio" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
-            <label for="answer">${STORE.questions[STORE.questionNumber].answers[3]}</label><br/>
+            <input type="radio" id="answer1" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[0]}" required="">
+            <label for="answer1">${STORE.questions[STORE.questionNumber].answers[0]}</label><br/>
+            <input type="radio" id="answer2" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[1]}">
+            <label for="answer2">${STORE.questions[STORE.questionNumber].answers[1]}</label><br/>
+            <input type="radio" id="answer3" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[2]}">
+            <label for="answer3">${STORE.questions[STORE.questionNumber].answers[2]}</label><br/>
+            <input type="radio" id="answer4" name="selectedanswer" value="${STORE.questions[STORE.questionNumber].answers[3]}">
+            <label for="answer4">${STORE.questions[STORE.questionNumber].answers[3]}</label><br/>
         </fieldset>
         <button type="submit">Submit</button>
     </form>
@@ -141,24 +141,10 @@ function submitNewAnswer() {
   $('body').submit(function (e) {
     e.preventDefault();
     checkAnswer();
-    // console.log('submitNewAnswer: answer submitted');
-    // if (STORE.questionNumber <= 4) {
-    //   checkAnswer();
-    // }
-    // console.log('submitNewAnswer: NEWSCORE =', STORE.score);
-    // if (STORE.score > prevScore) {
-    //   checkAnswer();
-    //   renderQuestion();
-    // }
-    // if (STORE.score > 4) {
-    //   checkAnswer();
-    //   renderFinalPage();
-
   });
 }
 function generateErrorPage() {
   return `
-  
   <h1>Logan's Quiz</h1>
   <h2>Sorry, that answer was incorrect!</h2>
   <h3>The correct answer is ${STORE.questions[STORE.questionNumber].correctAnswer}</h3>
